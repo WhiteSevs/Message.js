@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-11-18 13:38:41
  * @LastEditors: WhiteSev 893177236@qq.com
- * @LastEditTime: 2023-03-21 10:38:21
+ * @LastEditTime: 2023-03-21 13:03:09
  * @原地址: https://www.jq22.com/jquery-info23550
  * @说明: 修改config配置{"position":"topleft|top|topright|centerleft|center|centerright|bottomleft|bottomright|bottom"} 九宫格，
  * 		  九个位置弹出，修改原center为显示中间，top代替原center
@@ -540,41 +540,41 @@
 	var PLUGIN_CSS = {
 	  css: `
 	  .qmsg.qmsg-wrapper {
-	  box-sizing: border-box;
-	  margin: 0;
-	  padding: 0;
-	  color: rgba(0, 0, 0, 0.55);
-	  font-size: 13px;
-	  font-variant: tabular-nums;
-	  line-height: 1;
-	  list-style: none;
-	  font-feature-settings: "tnum";
-	  position: fixed;
-	  top: 16px;
-	  left: 0;
-	  z-index: 50000;
-	  width: 100%;
-	  pointer-events: none;
-	  display: flex;
-	  flex-direction: column;
+			box-sizing: border-box;
+			margin: 0;
+			padding: 0;
+			color: rgba(0, 0, 0, 0.55);
+			font-size: 13px;
+			font-variant: tabular-nums;
+			line-height: 1;
+			list-style: none;
+			font-feature-settings: "tnum";
+			position: fixed;
+			top: 16px;
+			left: 0;
+			z-index: 50000;
+			width: 100%;
+			pointer-events: none;
+			display: flex;
+			flex-direction: column;
 	  }
 	  .qmsg.${namespacify("data-position", "left")},
 	  .qmsg.${namespacify("data-position", "center")},
 	  .qmsg.${namespacify("data-position", "right")}{
-	  position: fixed;
-	  top: 50%;
-	  left: 50%;
-	  transform: translate(-50%,-50%);
+			position: fixed !important;
+			top: 50% !important;
+			left: 50% !important;
+			transform: translate(-50%,-50%) !important;
 	  }
 	  .qmsg.${namespacify("data-position", "bottomleft")},
 	  .qmsg.${namespacify("data-position", "bottom")},
 	  .qmsg.${namespacify("data-position", "bottomright")}{
-	  position: fixed;
-	  left: 50%;
-	  bottom: 0;
-	  transform: translate(-50%, 0%);
-	  top: unset;
-	  bottom: 8px;
+			position: fixed !important;
+			left: 50% !important;
+			bottom: 0 !important;
+			transform: translate(-50%, 0%) !important;
+			top: unset !important;
+			bottom: 8px !important;
 	  }
 	  .qmsg.${namespacify("data-position", "topleft")} .qmsg-item,
 	  .qmsg.${namespacify("data-position", "left")} .qmsg-item,
