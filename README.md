@@ -16,6 +16,8 @@
 
 **使用：**
 
+目前是把`CSS`集成到`JS`文件中了。
+
 **html引入：**
 
 ```html
@@ -27,7 +29,10 @@
     Qmsg.info("这是提示消息",configs);
 </script>
 ```
-
+**油猴引入**
+```html
+// @require https://github.com/WhiteSevs/Message.js/raw/master/src/message.js
+```
 
 
 **全局配置**
