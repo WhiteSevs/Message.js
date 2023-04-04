@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-11-18 13:38:41
  * @LastEditors: WhiteSev 893177236@qq.com
- * @LastEditTime: 2023-04-02 15:20:28
+ * @LastEditTime: 2023-04-04 10:39:46
  * @原地址: https://www.jq22.com/jquery-info23550
  * @说明: 修改config配置{"position":"topleft|top|topright|centerleft|center|centerright|bottomleft|bottomright|bottom"} 九宫格，
  * 		  九个位置弹出，修改原center为显示中间，top代替原center
@@ -558,285 +558,85 @@
 
   var PLUGIN_CSS = {
     css: `
-	  .qmsg.qmsg-wrapper {
-			box-sizing: border-box;
-			margin: 0;
-			padding: 0;
-			color: rgba(0, 0, 0, 0.55);
-			font-size: 13px;
-			font-variant: tabular-nums;
-			line-height: 1;
-			list-style: none;
-			font-feature-settings: "tnum";
-			position: fixed;
-			top: 16px;
-			left: 0;
-			z-index: 50000;
-			width: 100%;
-			pointer-events: none;
-			display: flex;
-			flex-direction: column;
-	  }
-	  .qmsg.${namespacify("data-position", "left")},
-	  .qmsg.${namespacify("data-position", "center")},
-	  .qmsg.${namespacify("data-position", "right")}{
-			position: fixed !important;
-			top: 50% !important;
-			left: 50% !important;
-			transform: translate(-50%,-50%) !important;
-	  }
-	  .qmsg.${namespacify("data-position", "bottomleft")},
-	  .qmsg.${namespacify("data-position", "bottom")},
-	  .qmsg.${namespacify("data-position", "bottomright")}{
-			position: fixed !important;
-			left: 50% !important;
-			bottom: 0 !important;
-			transform: translate(-50%, 0%) !important;
-			top: unset !important;
-			bottom: 8px !important;
-	  }
-	  .qmsg.${namespacify("data-position", "topleft")} .qmsg-item,
-	  .qmsg.${namespacify("data-position", "left")} .qmsg-item,
-	  .qmsg.${namespacify("data-position", "bottomleft")} .qmsg-item{
-		  text-align: left;
-	  }
-	  .qmsg.${namespacify("data-position", "top")} .qmsg-item,
-	  .qmsg.${namespacify("data-position", "center")} .qmsg-item,
-	  .qmsg.${namespacify("data-position", "bottom")} .qmsg-item{
-		  text-align: center;
-	  }
-	  .qmsg.${namespacify("data-position", "topright")} .qmsg-item,
-	  .qmsg.${namespacify("data-position", "right")} .qmsg-item,
-	  .qmsg.${namespacify("data-position", "bottomright")} .qmsg-item{
-		  text-align: right;
-	  }
-	  .qmsg .qmsg-item {
-		  padding: 8px;
-		  text-align: center;
-		  -webkit-animation-duration: 0.3s;
-		  animation-duration: 0.3s;
-		  position: relative;
-	  }
-	  .qmsg .qmsg-item .qmsg-count {
-		  text-align: center;
-		  position: absolute;
-		  left: -4px;
-		  top: -4px;
-		  background-color: red;
-		  color: #fff;
-		  font-size: 12px;
-		  line-height: 16px;
-		  border-radius: 2px;
-		  display: inline-block;
-		  min-width: 16px;
-		  height: 16px;
-		  -webkit-animation-duration: 0.3s;
-		  animation-duration: 0.3s;
-	  }
-	  .qmsg .qmsg-item:first-child {
-		  margin-top: -8px;
-	  }
-	  .qmsg .qmsg-content {
-		  text-align: center;
-		  position: relative;
-		  display: inline-block;
-		  padding: 10px 12px;
-		  background: #fff;
-		  border-radius: 4px;
-		  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-		  pointer-events: all;
-		  /* min-width: 175px; */
-		  max-width: 80%;
-		  /* min-width: 80px; */
-	  min-width: 40px;
-	  }
-	  .qmsg .qmsg-content [class^="qmsg-content-"] {
-	  display: flex;
-	  align-items: center;
-	  }
-	  .qmsg .qmsg-content .qmsg-content-with-close {
-  /* 		padding-right: 20px; */
-	  }
-	  .qmsg .qmsg-icon {
-		  display: inline-block;
-		  color: inherit;
-		  font-style: normal;
-		  line-height: 0;
-		  text-align: center;
-		  text-transform: none;
-		  vertical-align: -0.125em;
-		  text-rendering: optimizeLegibility;
-		  -webkit-font-smoothing: antialiased;
-		  -moz-osx-font-smoothing: grayscale;
-		  position: relative;
-		  top: 1px;
-		  margin-right: 8px;
-		  font-size: 16px;
-	  }
-	  .qmsg .qmsg-icon svg {
-		  display: inline-block;
-	  }
-	  
-	  .qmsg .qmsg-content-info .qmsg-icon {
-		  color: #1890ff;
-	  }
-	  .qmsg .qmsg-icon-close {
-		  /* position: absolute; 
-		  top: 11px;
-		  right: 5px;*/
-		  padding: 0;
-		  /* overflow: hidden; */
-		  font-size: 12px;
-		  background-color: transparent;
-		  border: none;
-		  outline: none;
-		  cursor: pointer;
-		  color: rgba(0, 0, 0, 0.45);
-		  transition: color 0.3s;
-	  margin: 0;
-	  margin-left: 8px;
-	  }
-	  .qmsg .qmsg-icon-close:hover > svg path {
-		  stroke: #555;
-	  }
-	  .qmsg .animate-turn {
-		  animation: MessageTurn 1s linear infinite;
-		  -webkit-animation: MessageTurn 1s linear infinite;
-	  }
-	  @keyframes MessageTurn {
-		  0% {
-			  -webkit-transform: rotate(0deg);
-		  }
-		  25% {
-			  -webkit-transform: rotate(90deg);
-		  }
-		  50% {
-			  -webkit-transform: rotate(180deg);
-		  }
-		  75% {
-			  -webkit-transform: rotate(270deg);
-		  }
-		  100% {
-			  -webkit-transform: rotate(360deg);
-		  }
-	  }
-	  @-webkit-keyframes MessageTurn {
-		  0% {
-			  -webkit-transform: rotate(0deg);
-		  }
-		  25% {
-			  -webkit-transform: rotate(90deg);
-		  }
-		  50% {
-			  -webkit-transform: rotate(180deg);
-		  }
-		  75% {
-			  -webkit-transform: rotate(270deg);
-		  }
-		  100% {
-			  -webkit-transform: rotate(360deg);
-		  }
-	  }
-	  
-	  @-webkit-keyframes MessageMoveOut {
-		  0% {
-			  max-height: 150px;
-			  opacity: 1;
-		  }
-		  
-		  to {
-			  max-height: 0;
-			  opacity: 0;
-		  }
-	  }
-	  
-	  @keyframes MessageMoveOut {
-		  0% {
-			  max-height: 150px;
-			  opacity: 1;
-		  }
-		  
-		  to {
-			  max-height: 0;
-			  opacity: 0;
-		  }
-	  }
-	  
-	  @-webkit-keyframes MessageMoveIn {
-		  0% {
-			  transform: translateY(-100%);
-			  transform-origin: 0 0;
-			  opacity: 0;
-		  }
-		  
-		  to {
-			  transform: translateY(0);
-			  transform-origin: 0 0;
-			  opacity: 1;
-		  }
-	  }
-	  
-	  @keyframes MessageMoveIn {
-		  0% {
-			  transform: translateY(-100%);
-			  transform-origin: 0 0;
-			  opacity: 0;
-		  }
-		  
-		  to {
-			  transform: translateY(0);
-			  transform-origin: 0 0;
-			  opacity: 1;
-		  }
-	  }
-	  @-webkit-keyframes MessageShake {
-		  0%,
-		  100% {
-			  transform: translateX(0px);
-			  opacity: 1;
-		  }
-		  
-		  25%,
-		  75% {
-			  transform: translateX(-4px);
-			  opacity: 0.75;
-		  }
-		  
-		  50% {
-			  transform: translateX(4px);
-			  opacity: 0.25;
-		  }
-	  }
-	  @keyframes MessageShake {
-		  0%,
-		  100% {
-			  transform: translateX(0px);
-			  opacity: 1;
-		  }
-		  
-		  25%,
-		  75% {
-			  transform: translateX(-4px);
-			  opacity: 0.75;
-		  }
-		  
-		  50% {
-			  transform: translateX(4px);
-			  opacity: 0.25;
-		  }
-	  }
+	  .qmsg.qmsg-wrapper{box-sizing:border-box;margin:0;padding:0;color:rgba(0,0,0,0.55);font-size:13px;font-variant:tabular-nums;line-height:1;list-style:none;font-feature-settings:"tnum";position:fixed;top:16px;left:0;z-index:50000;width:100%;pointer-events:none;display:flex;flex-direction:column}
+    .qmsg.${namespacify("data-position","left")}
+    ,.qmsg.${namespacify("data-position","center")}
+    ,.qmsg.${namespacify("data-position","right")}
+    {position:fixed !important;top:50% !important;left:50% !important;transform:translate(-50%,-50%) !important}
+    .qmsg.${namespacify("data-position","bottomleft")}
+    ,.qmsg.${namespacify("data-position","bottom")}
+    ,.qmsg.${namespacify("data-position","bottomright")}
+    {position:fixed !important;left:50% !important;bottom:0 !important;transform:translate(-50%,0%) !important;top:unset !important;bottom:8px !important}
+    .qmsg.${namespacify("data-position","topleft")}
+    .qmsg-item,.qmsg.${namespacify("data-position","left")}
+    .qmsg-item,.qmsg.${namespacify("data-position","bottomleft")}
+    .qmsg-item{text-align:left}
+    .qmsg.${namespacify("data-position","top")}
+    .qmsg-item,.qmsg.${namespacify("data-position","center")}
+    .qmsg-item,.qmsg.${namespacify("data-position","bottom")}
+    .qmsg-item{text-align:center}
+    .qmsg.${namespacify("data-position","topright")}
+    .qmsg-item,.qmsg.${namespacify("data-position","right")}
+    .qmsg-item,.qmsg.${namespacify("data-position","bottomright")}
+    .qmsg-item{text-align:right}
+    .qmsg .qmsg-item{padding:8px;text-align:center;-webkit-animation-duration:0.3s;animation-duration:0.3s;position:relative}
+    .qmsg .qmsg-item .qmsg-count{text-align:center;position:absolute;left:-4px;top:-4px;background-color:red;color:#fff;font-size:12px;line-height:16px;border-radius:2px;display:inline-block;min-width:16px;height:16px;-webkit-animation-duration:0.3s;animation-duration:0.3s}
+    .qmsg .qmsg-item:first-child{margin-top:-8px}
+    .qmsg .qmsg-content{text-align:center;position:relative;display:inline-block;padding:10px 12px;background:#fff;border-radius:4px;box-shadow:0 4px 12px rgba(0,0,0,0.15);pointer-events:all;max-width:80%;min-width:40px}
+    .qmsg .qmsg-content [class^="qmsg-content-"]{display:flex;align-items:center}
+    .qmsg .qmsg-content .qmsg-content-with-close{}
+    .qmsg .qmsg-icon{display:inline-block;color:inherit;font-style:normal;line-height:0;text-align:center;text-transform:none;vertical-align:-0.125em;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;position:relative;top:1px;margin-right:8px;font-size:16px}
+    .qmsg .qmsg-icon svg{display:inline-block}
+    .qmsg .qmsg-content-info .qmsg-icon{color:#1890ff}
+    .qmsg .qmsg-icon-close{padding:0;font-size:12px;background-color:transparent;border:none;outline:none;cursor:pointer;color:rgba(0,0,0,0.45);transition:color 0.3s;margin:0;margin-left:8px}
+    .qmsg .qmsg-icon-close:hover > svg path{stroke:#555}
+    .qmsg .animate-turn{animation:MessageTurn 1s linear infinite;-webkit-animation:MessageTurn 1s linear infinite}
+    @keyframes MessageTurn{0%{-webkit-transform:rotate(0deg)}
+    25%{-webkit-transform:rotate(90deg)}
+    50%{-webkit-transform:rotate(180deg)}
+    75%{-webkit-transform:rotate(270deg)}
+    100%{-webkit-transform:rotate(360deg)}
+    }@-webkit-keyframes MessageTurn{0%{-webkit-transform:rotate(0deg)}
+    25%{-webkit-transform:rotate(90deg)}
+    50%{-webkit-transform:rotate(180deg)}
+    75%{-webkit-transform:rotate(270deg)}
+    100%{-webkit-transform:rotate(360deg)}
+    }@-webkit-keyframes MessageMoveOut{0%{max-height:150px;opacity:1}
+    to{max-height:0;opacity:0}
+    }@keyframes MessageMoveOut{0%{max-height:150px;opacity:1}
+    to{max-height:0;opacity:0}
+    }@-webkit-keyframes MessageMoveIn{0%{transform:translateY(-100%);transform-origin:0 0;opacity:0}
+    to{transform:translateY(0);transform-origin:0 0;opacity:1}
+    }@keyframes MessageMoveIn{0%{transform:translateY(-100%);transform-origin:0 0;opacity:0}
+    to{transform:translateY(0);transform-origin:0 0;opacity:1}
+    }@-webkit-keyframes MessageShake{0%,100%{transform:translateX(0px);opacity:1}
+    25%,75%{transform:translateX(-4px);opacity:0.75}
+    50%{transform:translateX(4px);opacity:0.25}
+    }@keyframes MessageShake{0%,100%{transform:translateX(0px);opacity:1}
+    25%,75%{transform:translateX(-4px);opacity:0.75}
+    50%{transform:translateX(4px);opacity:0.25}
+    }
 	  `,
     init() {
-      let pluginCSSNode = document.createElement("style");
-      pluginCSSNode.setAttribute("type", "text/css");
-      pluginCSSNode.innerHTML = this.css;
-      if (document.documentElement.childNodes.length == 0) {
-        document.documentElement.appendChild(pluginCSSNode);
+      let cssResourceNode = document.createElement("style");
+      cssResourceNode.setAttribute("type", "text/css");
+      cssResourceNode.setAttribute("data-insert-from", "viewer");
+      cssResourceNode.innerHTML = this.css;
+      if (document.head) {
+        document.head.append(cssResourceNode);
+      } else if (document.documentElement) {
+        if (document.documentElement.childNodes.length === 0) {
+          document.documentElement.appendChild(cssResourceNode);
+        } else {
+          document.documentElement.insertBefore(
+            cssResourceNode,
+            document.documentElement.childNodes[
+              document.documentElement.childNodes.length - 1
+            ]
+          );
+        }
       } else {
-        document.documentElement.insertBefore(
-          pluginCSSNode,
-          document.documentElement.childNodes[0]
-        );
+        throw new Error("未找到可以插入到页面中的元素");
       }
     },
   };
