@@ -12,7 +12,7 @@
 
 - 转载地址：https://www.jq22.com/jquery-info23550
 
-![message.js](assets/intro-zh.jpg)
+![message.js](https://raw.githubusercontent.com/WhiteSevs/Message.js/master/assets/intro-zh.jpg)
 
 **使用：**
 
