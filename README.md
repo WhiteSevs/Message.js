@@ -147,6 +147,21 @@ aMsg.close()
 ```javascript
 aMsg.destroy()
 ```
+**setText(text:String)**
+
+对已弹出的内容进行修改
+
+```javascript
+aMsg.setText("这是进行修改的info消息")
+```
+
+**setHTML(html:String)**
+
+对已弹出的内容进行修改
+
+```javascript
+aMsg.setHTML("<a href='javascript:;' target='_blank'>这是进行修改的info消息超链接</a>")
+```
 
 **关闭左边的图标显示**
 
