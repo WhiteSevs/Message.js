@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-11-18 13:38:41
  * @LastEditors: WhiteSev 893177236@qq.com
- * @LastEditTime: 2023-04-04 11:59:30
+ * @LastEditTime: 2023-05-19 18:35:46
  * @原地址: https://www.jq22.com/jquery-info23550
  * @说明: 修改config配置{"position":"topleft|top|topright|centerleft|center|centerright|bottomleft|bottomright|bottom"} 九宫格，
  * 		  九个位置弹出，修改原center为显示中间，top代替原center
@@ -313,7 +313,11 @@
     );
     if (oMsg.settings.autoClose) {
       // 自动关闭
-      var intvMs = 10; // 定时器频率
+      setTimeout(function() {
+        this.close();
+      }.bind(oMsg), this.timeout);
+      /* 重复调用会导致this.timeout时间会自动更新，会不及时关闭 */
+      /* var intvMs = 10; // 定时器频率
       oMsg.timer = setInterval(
         function () {
           this.timeout -= intvMs;
@@ -323,7 +327,7 @@
           }
         }.bind(oMsg),
         intvMs
-      );
+      ); */
       oMsg.$elem.addEventListener(
         "mouseover",
         function () {
@@ -335,7 +339,10 @@
         function () {
           if (this.state !== "closing") {
             /* 状态为关闭则不重启定时器 */
-            this.timer = setInterval(
+            setTimeout(function() {
+              this.close();
+            }.bind(oMsg), this.timeout);
+            /* this.timer = setInterval(
               function () {
                 this.timeout -= intvMs;
                 if (this.timeout <= 0) {
@@ -344,7 +351,7 @@
                 }
               }.bind(oMsg),
               intvMs
-            );
+            ); */
           }
         }.bind(oMsg)
       );
