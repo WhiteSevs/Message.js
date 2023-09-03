@@ -6,15 +6,36 @@
     <title>Message.js</title>
     <script src="../src/message.js"></script>
     <style>
+      * {
+        padding: 0;
+        margin: 0;
+      }
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+      }
       .box {
-        margin-top: 200px;
         text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
       }
       .settings {
         margin-top: 30px;
       }
       div button {
         margin: 10px;
+        padding: 10px;
+        border-radius: 12px;
+        border: 1px solid #fff;
+        font-size: 12px;
+      }
+      div button:hover {
+        background: #dddddd;
+        cursor: pointer;
       }
     </style>
   </head>
@@ -47,6 +68,8 @@
       </div>
       <div class="settings">
         <button class="create-loading">创建一个loading</button>
+        <button class="change-loading-text">修改loading的文本</button>
+        <button class="change-loading-html">修改loading的超文本</button>
         <button class="close-loading">关闭这个loading</button>
       </div>
       <div class="settings">
@@ -183,6 +206,12 @@
           },
         });
       };
+      document.querySelector(".change-loading-text").onclick = function () {
+        loading?.setText("当前loading实例.setText()")
+      };
+      document.querySelector(".change-loading-html").onclick = function () {
+        loading?.setHTML("<i style='color:red;'>当前loading实例.setHTML()</i>")
+      };
       document.querySelector(".close-loading").onclick = function () {
         loading && loading.close();
       };
@@ -236,11 +265,16 @@
           maxNums: 2,
         });
         for (let i = 0; i < 10; i++) {
-          Qmsg.info(`第 ${i+1} 个，设置 <i style="color:green">autoClose</i> = <i style="color:red">true</i> 的超出限制直接关闭`,{
-            autoClose:true,
-            html:true
-          });
-        };
+          Qmsg.info(
+            `第 ${
+              i + 1
+            } 个，设置 <i style="color:green">autoClose</i> = <i style="color:red">true</i> 的超出限制直接关闭`,
+            {
+              autoClose: true,
+              html: true,
+            }
+          );
+        }
       };
       document.querySelector(".close-set-show-maxnum").onclick = function () {
         Qmsg.config({
@@ -250,7 +284,7 @@
       document.querySelector(".info-max-99").onclick = function () {
         for (let i = 0; i < 150; i++) {
           Qmsg.info("99+消息");
-        };
+        }
       };
     </script>
   </body>
