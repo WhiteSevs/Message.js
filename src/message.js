@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-11-18 13:38:41
  * @LastEditors: WhiteSev 893177236@qq.com
- * @LastEditTime: 2023-05-19 18:35:46
+ * @LastEditTime: 2023-09-03 13:52:28
  * @原地址: https://www.jq22.com/jquery-info23550
  * @说明: 修改config配置{"position":"topleft|top|topright|centerleft|center|centerright|bottomleft|bottomright|bottom"} 九宫格，
  * 		  九个位置弹出，修改原center为显示中间，top代替原center
@@ -265,6 +265,7 @@
 	  </div>
 	  `;
     $elem.classList.add(namespacify("item"));
+    $elem.setAttribute(namespacify("uuid"), oMsg.uuid);
     var $wrapper = document.querySelector(
       `.${NAMESPACE}.${$positionClassName}`
     );
@@ -305,7 +306,7 @@
         var target = event.target,
           animationName = event.animationName;
         if (animationName === STATES["closing"]) {
-          clearInterval(this.timer);
+          clearTimeout(this.timer);
           this.destroy();
         }
         target.style.animationName = "";
@@ -313,9 +314,12 @@
     );
     if (oMsg.settings.autoClose) {
       // 自动关闭
-      setTimeout(function() {
-        this.close();
-      }.bind(oMsg), this.timeout);
+      setTimeout(
+        function () {
+          this.close();
+        }.bind(oMsg),
+        this.timeout
+      );
       /* 重复调用会导致this.timeout时间会自动更新，会不及时关闭 */
       /* var intvMs = 10; // 定时器频率
       oMsg.timer = setInterval(
@@ -331,7 +335,7 @@
       oMsg.$elem.addEventListener(
         "mouseover",
         function () {
-          clearInterval(this.timer);
+          clearTimeout(this.timer);
         }.bind(oMsg)
       );
       oMsg.$elem.addEventListener(
@@ -339,9 +343,12 @@
         function () {
           if (this.state !== "closing") {
             /* 状态为关闭则不重启定时器 */
-            setTimeout(function() {
-              this.close();
-            }.bind(oMsg), this.timeout);
+            this.timer = setTimeout(
+              function () {
+                this.close();
+              }.bind(oMsg),
+              this.timeout
+            );
             /* this.timer = setInterval(
               function () {
                 this.timeout -= intvMs;
@@ -370,7 +377,7 @@
    */
   Msg.prototype.destroy = function () {
     this.$elem.parentNode && this.$elem.parentNode.removeChild(this.$elem);
-    clearInterval(this.timer);
+    clearTimeout(this.timer);
     Qmsg.remove(this.uuid);
   };
   /**
@@ -509,7 +516,7 @@
   }
 
   var Qmsg = {
-    version: "0.0.2" /* 版本 */,
+    version: "0.0.3" /* 版本 */,
     oMsgs: [] /* 实例数组 */,
     maxNums: DEFAULTS.maxNums || 5 /* 最大数量 */,
     config: function (cfg) {
