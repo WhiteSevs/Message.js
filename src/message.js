@@ -1,24 +1,28 @@
 /*
  * @Date: 2022-11-18 13:38:41
  * @LastEditors: WhiteSev 893177236@qq.com
- * @LastEditTime: 2023-09-03 13:52:28
+ * @LastEditTime: 2023-09-15 16:40:54
  * @原地址: https://www.jq22.com/jquery-info23550
  * @说明: 修改config配置{"position":"topleft|top|topright|centerleft|center|centerright|bottomleft|bottomright|bottom"} 九宫格，
  * 		  九个位置弹出，修改原center为显示中间，top代替原center
  * @说明: 新增config配置{"contentWrap":true}，长文本全部显示(支持换行)，默认为false
  * @说明: 新增config配置{"showIcon":true}，可关闭左边的图标
  */
-(function (root, Msg) {
+(function (global, factory) {
+  /**
+   * 不使用define
+   * typeof define === "function" && define.amd
+   * define(factory)
+   */
   if (typeof exports === "object" && typeof module !== "undefined") {
-    module.exports = Msg;
-  } else if (typeof define === "function" && define.amd) {
-    define([], function () {
-      return Msg(root);
-    });
+    /* 适用于NodeJs或typeScript */
+    module.exports = factory();
   } else {
-    root.Qmsg = Msg(root);
+    global = typeof globalThis !== "undefined" ? globalThis : global || self;
+    /* 适用于浏览器中，且this对象是window，如果this是其它，那么会在其它对象下注册对象 */
+    global.Qmsg = factory(global);
   }
-})(this, function (global) {
+})(typeof window !== "undefined" ? window : this, function (global) {
   "use strict";
 
   /* assign 兼容处理 */
