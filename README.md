@@ -74,6 +74,7 @@ Qmsg.config({
 | showReverse | Boolean | 是否使弹出方式逆反 | false |
 | timeout | Number | 自动关闭时，消息的持续显示时间，单位 ms | 2500 |
 | type | String | 弹出类型 | info |
+| zIndex | Number | z-index的层级 | 50000 |
 
 
 **Qmsg支持的方法**
