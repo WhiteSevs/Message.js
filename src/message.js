@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-11-18 13:38:41
  * @LastEditors: 白柒 893177236@qq.com
- * @LastEditTime: 2023-11-22 12:00:35
+ * @LastEditTime: 2024-01-08 00:14:49
  * @原地址: https://www.jq22.com/jquery-info23550
  * @说明: 修改config配置{"position":"topleft|top|topright|centerleft|center|centerright|bottomleft|bottomright|bottom"} 九宫格，
  * 		  九个位置弹出，修改原center为显示中间，top代替原center
@@ -122,6 +122,7 @@
    * @property {boolean} [showReverse=false] 弹出顺序是否逆反，默认false
    * @property {number} [timeout=2500] 最大显示的时长(ms)，默认为2500ms
    * @property {"info"|"warning"|"success"|"error"|"loading"} type 类型，支持'info','warning','success','error','loading'
+   * @property {number} [zIndex=50000] z-index值，默认为50000
    */
 
   /**
@@ -142,6 +143,7 @@
       showReverse: false,
       timeout: 2500,
       type: "info",
+      zIndex: 50000,
     },
     global && global.QMSG_GLOBALS && global.QMSG_GLOBALS.DEFAULTS
   );
@@ -244,7 +246,7 @@
   }
   /**
    * 每条消息的构造函数
-   * @param {Objetc} opts 配置参数，参考DEFAULTS
+   * @param {Qmsg_Details} opts 配置参数，参考DEFAULTS
    */
   function Msg(opts = {}, uuid) {
     var oMsg = this;
@@ -341,7 +343,10 @@
     } else {
       $wrapper.style.flexDirection = "column";
     }
-
+    let zIndex = parseInt(oMsg.settings.zIndex);
+    if (!isNaN(zIndex) && zIndex !== 50000) {
+      $wrapper.style.zIndex = zIndex;
+    }
     $wrapper.appendChild($elem);
     oMsg.$wrapper = $wrapper;
     oMsg.$elem = $elem;
@@ -569,7 +574,7 @@
     /**
      * 版本
      */
-    version: "0.0.6",
+    version: "2024.1.8",
     /**
      * 实例数组
      */
