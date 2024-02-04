@@ -121,9 +121,15 @@
           Qmsg.config({
             position: position,
           });
-          Qmsg.info('我来自 <i style="color:red">' + txt + "</i>", {
-            html: true,
-          });
+          Qmsg.info(
+            '我来自 <i style="color:red">' +
+              txt +
+              "</i> " +
+              new Date().toLocaleString(),
+            {
+              html: true,
+            }
+          );
         });
       }
 
@@ -207,10 +213,10 @@
         });
       };
       document.querySelector(".change-loading-text").onclick = function () {
-        loading?.setText("当前loading实例.setText()")
+        loading?.setText("当前loading实例.setText()");
       };
       document.querySelector(".change-loading-html").onclick = function () {
-        loading?.setHTML("<i style='color:red;'>当前loading实例.setHTML()</i>")
+        loading?.setHTML("<i style='color:red;'>当前loading实例.setHTML()</i>");
       };
       document.querySelector(".close-loading").onclick = function () {
         loading && loading.close();
