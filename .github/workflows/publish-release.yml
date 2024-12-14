@@ -3,7 +3,7 @@ name: Publish Package + Create Release
 on:
   push:
     tags:
-      - "release@*"
+      - "release*"
 
 jobs:
   publish_release:
