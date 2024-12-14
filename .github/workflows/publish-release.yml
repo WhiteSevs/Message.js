@@ -17,6 +17,8 @@ jobs:
       - uses: volta-cli/action@v3
 
       - uses: pnpm/action-setup@v2
+        with:
+          version: 8
 
       - run: pnpm install
 
