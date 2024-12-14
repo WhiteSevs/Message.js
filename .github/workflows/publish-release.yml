@@ -22,24 +22,12 @@ jobs:
 
       - run: pnpm build
 
-      - name: Get pkgName for tag
-        id: tag
-        run: |
-          # matching v2.0.0 / v2.0.0-beta.8 etc
-          if [[ $GITHUB_REF_NAME =~ ^v.+ ]]; then
-            pkgName="qmsg"
-          else
-            # `%@*` truncates @ and version number from the right side.
-            # https://stackoverflow.com/questions/9532654/expression-after-last-specific-character
-            pkgName=${GITHUB_REF_NAME%@*}
-          fi
-          echo "::set-output name=pkgName::$pkgName"
-
       - name: Create Release
         id: create_release
         uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
         with:
+          name: Release ${{ github.ref_name }}
           tag_name: ${{ github.ref }}
-          name: Release ${{ github.ref }}
           body_path: ./CHANGELOG.md
           token: ${{ secrets.GITHUB_TOKEN}}
