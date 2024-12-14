@@ -1,0 +1,46 @@
+name: Publish Package + Create Release
+
+on:
+  push:
+    tags:
+      - "release@*"
+
+jobs:
+  publish_release:
+    # prevents this action from running on forks
+    if: github.repository == 'WhiteSevs/Qmsg'
+    runs-on: ubuntu-latest
+    environment: Release
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: volta-cli/action@v3
+
+      - uses: pnpm/action-setup@v2
+
+      - run: pnpm install
+
+      - run: pnpm build
+
+      - name: Get pkgName for tag
+        id: tag
+        run: |
+          # matching v2.0.0 / v2.0.0-beta.8 etc
+          if [[ $GITHUB_REF_NAME =~ ^v.+ ]]; then
+            pkgName="qmsg"
+          else
+            # `%@*` truncates @ and version number from the right side.
+            # https://stackoverflow.com/questions/9532654/expression-after-last-specific-character
+            pkgName=${GITHUB_REF_NAME%@*}
+          fi
+          echo "::set-output name=pkgName::$pkgName"
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body_path: ./CHANGELOG.md
