@@ -42,4 +42,4 @@ jobs:
           tag_name: ${{ github.ref }}
           name: Release ${{ github.ref }}
           body_path: ./CHANGELOG.md
-          token: ${{ secrets.PUBLISH_TOKEN}}
+          token: ${{ secrets.GITHUB_TOKEN}}
